@@ -18,6 +18,34 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    country: {
+        type: String,
+        required: false
+    },
+    city: {
+        type: String,
+        required: false
+    },
+    DOB: {
+        type: Date,
+        required: false
+    },
+    gender: {
+        type: String,
+        required: false
+    },
+    bloodGroup: {
+        type: String,
+        required: false
+    },
+    weight: {
+        type: Number,
+        required: false
+    },
+    height: {
+        type: Number,
+        required: false
+    }
 }, { timestamps: true });
 
 module.exports = new mongoose.model('Users', userSchema);
