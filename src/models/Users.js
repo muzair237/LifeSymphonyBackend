@@ -18,6 +18,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    age: {
+        type: Number,
+        required: false
+    },
+    profilePicture: {
+        type: String,
+        default: "https://p.kindpng.com/picc/s/21-211456_user-icon-hd-png-download.png"
+    },
+    role: {
+        type: String,
+        default: "User"
+    },
     country: {
         type: String,
         required: false

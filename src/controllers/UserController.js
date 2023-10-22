@@ -8,8 +8,8 @@ const userModel = require("../models/Users");
 router.use(express.json());
 
 const SignUp = [
-    body("firstname").isLength({ min: 1 }).withMessage("First Name is required."),
-    body("lastname").isLength({ min: 1 }).withMessage("Last Name is required."),
+    body("firstname").isLength({ min: 3 }).withMessage("First Name is required."),
+    body("lastname").isLength({ min: 3 }).withMessage("Last Name is required."),
     body("email").isEmail().withMessage("Invalid email address."),
     body("password")
         .isLength({ min: 6 }).withMessage("Password must be at least 6 characters long.")
