@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require('bcryptjs');
+const nodemailer = require("nodemailer");
 const Jwt = require('jsonwebtoken');
 const key = 'blog';
 const { body, validationResult } = require('express-validator');
@@ -87,36 +88,158 @@ const Login = [
         }
     }];
 
+//UPDATE PROFILE
 const UpdateProfile = [
-    body("DOB").optional().isISO8601().toDate(),
-    body("gender").optional().isIn(['male', 'female', 'other']).withMessage('Invalid gender'),
-    body("bloodGroup").optional().isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).withMessage('Invalid blood group'),
-    body("weight").optional().isNumeric().withMessage('Weight should be a number'),
-    body("height").optional().isNumeric().withMessage('Height should be a number'),
+    body("firstname").optional().isLength({ min: 3 }).withMessage("First Name is required."),
+    body("lastname").optional().isLength({ min: 3 }).withMessage("Last Name is required."),
+    body("DOB").optional().isString(),
+    body("gender").optional().isString(),
+    body("bloodGroup").optional().isString(),
+    body("weight").optional().isString(),
+    body("height").optional().isString(),
+    body("age").optional().isString(),
+    body("country").optional().isString(),
+    body("city").optional().isString(),
+
     async (req, res) => {
         try {
             const { userId } = req.params;
-            const user = await userModel.findById(userId, { new: true });
+            const user = await userModel.findById(userId);
 
             if (!user) {
                 return res.status(200).json({ message: "User with this Email Doesn't Exist.", status: false });
             }
-            user.DOB = req.body.DOB;
+            user.firstname = req.body.firstname;
+            user.lastname = req.body.lastname;
+            user.email = req.body.email;
+            user.DOBdays = req.body.DOBdays;
+            user.DOBmonths = req.body.DOBmonths;
+            user.DOByears = req.body.DOByears;
             user.gender = req.body.gender;
             user.bloodGroup = req.body.bloodGroup;
             user.weight = req.body.weight;
             user.height = req.body.height;
+            user.age = req.body.age;
+            user.country = req.body.country;
+            user.city = req.body.city;
 
             await user.save();
-
-            res.send({ data: user, status: true });
+            console.log(user);
+            res.send({ data: user, status: true, message: "Profile Updated Successfully!." });
         } catch (err) {
-            res.send({ status: false, error: err.message });
+            res.send({ status: false, message: err.message });
         }
     }];
+
+const generateOTP = () => {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+};
+
+//SEND OTP
+const sendOTP = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        const user = await userModel.findOne({ email: email });
+        if (!user) {
+            return res.send({ status: false, message: "User not found...!" });
+        }
+
+        // Generate OTP and set its expiration time (e.g., 15 minutes from now)
+        const otp = generateOTP();
+        const otpExpiration = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+        // Update user document with the OTP and expiration time
+        user.otp = otp;
+        user.otpExpiration = otpExpiration;
+        await user.save();
+        const transporter = nodemailer.createTransport({
+            service: "Gmail", // e.g., Gmail, Outlook, etc.
+            auth: {
+                user: "uzair.ejaz2001@gmail.com",
+                pass: "vpyf rmsv yrsy ldhd",
+            },
+        });
+        const mailOptions = {
+            from: "uzair.ejaz2001@gmail.com",
+            to: email,
+            subject: "OTP",
+            text: `Dear ${user.firstname + " " + user.lastname},\n\nYour OTP for the Account is: ${otp}`,
+        };
+
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                return res.send({ status: false, message: "Failed to send OTP email." });
+            }
+            console.log("OTP email sent: " + info.response);
+            res.send({ status: true, message: "OTP sent successfully." });
+        });
+    } catch (err) {
+        res.send({ message: err.message, status: false });
+        next(err);
+    }
+};
+
+
+const confirmOTP = async (req, res, next) => {
+    const { email, otp } = req.body;
+
+    try {
+        // Find the user by email
+        const user = await userModel.findOne({ email: email });
+
+        if (!user) {
+            return res.send({ status: false, message: "User not found...!" });
+        }
+
+        // Check if the OTP matches the one stored in the user's document
+        if (user.otp !== otp || user.otpExpiration < Date.now()) {
+            console.log("Invalid OTP or OTP has expired");
+            return res.send({ status: false, message: "Invalid OTP or OTP has expired...!" });
+        }
+        res.send({ status: true, message: "OTP has Confirmed." });
+    } catch (err) {
+        console.error("Error in confirmOTP:", err);
+        res.send({ message: err.message, status: false });
+        next(err);
+    }
+};
+
+//UPDATE PASSWORD
+const updatePassword = async (req, res, next) => {
+    const { email, newPassword } = req.body;
+
+    try {
+        // Find the user by email
+        const user = await userModel.findOne({ email: email });
+
+        if (!user) {
+            return res.send({ status: false, message: "User not found...!" });
+        }
+
+        // Update the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        user.otp = null; // Clear the OTP after successful password update
+        await user.save();
+
+        // Generate a new JWT token with the updated user information if needed
+
+        res.send({ status: true, message: "Password updated successfully." });
+    } catch (err) {
+        console.error("Error in updatePassword:", err);
+        res.send({ message: err.message, status: false });
+        next(err);
+    }
+};
 
 module.exports = {
     Login,
     SignUp,
-    UpdateProfile
+    UpdateProfile,
+    sendOTP,
+    confirmOTP,
+    updatePassword
 };

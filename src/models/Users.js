@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     age: {
-        type: Number,
+        type: String,
         required: false
     },
     profilePicture: {
@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "User"
     },
+    otp: {
+        type: String,
+    },
+    otpExpiration: {
+        type: String,
+    },
     country: {
         type: String,
         required: false
@@ -38,8 +44,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    DOB: {
-        type: Date,
+    DOBmonths:{
+        type: String,
+        required: false
+    },
+    DOBdays:{
+        type: String,
+        required: false
+    },
+    DOByears:{
+        type: String,
         required: false
     },
     gender: {
@@ -51,12 +65,16 @@ const userSchema = new mongoose.Schema({
         required: false
     },
     weight: {
-        type: Number,
+        type: String,
         required: false
     },
     height: {
-        type: Number,
+        type: String,
         required: false
+    },
+    provider: {
+        type: String,
+        default: 'email',
     }
 }, { timestamps: true });
 
