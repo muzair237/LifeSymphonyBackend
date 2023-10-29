@@ -34,7 +34,17 @@ const SignUp = [
                 firstname,
                 lastname,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                DOBmonths: '',
+                DOBdays: '',
+                DOByears: '',
+                country: '',
+                city: '',
+                gender: '',
+                bloodGroup: '',
+                age: '',
+                height: '',
+                weight: ''
 
             });
             const savedUser = await newUser.save();
@@ -155,12 +165,12 @@ const sendOTP = async (req, res, next) => {
         const transporter = nodemailer.createTransport({
             service: "Gmail", // e.g., Gmail, Outlook, etc.
             auth: {
-                user: "uzair.ejaz2001@gmail.com",
-                pass: "vpyf rmsv yrsy ldhd",
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
             },
         });
         const mailOptions = {
-            from: "uzair.ejaz2001@gmail.com",
+            from: process.env.EMAIL_USER,
             to: email,
             subject: "OTP",
             text: `Dear ${user.firstname + " " + user.lastname},\n\nYour OTP for the Account is: ${otp}`,

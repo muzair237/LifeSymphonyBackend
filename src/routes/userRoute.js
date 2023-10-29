@@ -1,5 +1,5 @@
 const express = require("express");
-const { SignUp, Login, UpdateProfile,sendOTP,confirmOTP,updatePassword } = require("../controllers/UserController");
+const { SignUp, Login, UpdateProfile, sendOTP, confirmOTP, updatePassword } = require("../controllers/UserController");
 const router = express.Router();
 
 router.post('/signUp', SignUp);
