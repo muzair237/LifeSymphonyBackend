@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "MAIN",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "Run Backend - DEV",
+      "type": "pwa-node"
+    },
+    {
+      "name": "Common Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-common"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "name": "User Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-user"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Email Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-notifications"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Auth Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-auth"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "name": "query Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-query"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "name": "common Service",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev-common"],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    }
+  ]
+}

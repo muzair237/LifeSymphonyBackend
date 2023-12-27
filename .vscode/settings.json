@@ -1,0 +1,40 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#FF5733",
+    "statusBar.foreground": "#FFFFFF",
+    "statusBarItem.hoverBackground": "#FF5733",
+    "titleBar.activeBackground": "#FF5733",
+    "titleBar.activeForeground": "#FFFFFF",
+    "titleBar.inactiveBackground": "#FF573399",
+    "titleBar.inactiveForeground": "#FFFFFF99",
+    "activityBar.activeBackground": "#FFF",
+    "activityBar.activeBorder": "#000000",
+    "activityBar.background": "#FF5733",
+    "activityBar.foreground": "#FF5733",
+    "activityBar.inactiveForeground": "#FFFFFF99",
+    "activityBarBadge.background": "#FFFFFF",
+    "activityBarBadge.foreground": "#FF5733",
+    "sash.hoverBorder": "#FF5733",
+    "statusBarItem.remoteBackground": "#FF5733",
+    "statusBarItem.remoteForeground": "#FFFFFF",
+    "commandCenter.border": "#FFFFFF"
+  },
+  "git.ignoreLimitWarning": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "never"
+  },
+  "eslint.validate": ["javascript"],
+  "prettier.useTabs": false,
+  "prettier.trailingComma": "es5",
+  "prettier.tabWidth": 4,
+  "prettier.printWidth": 120,
+  "prettier.semi": true,
+  "prettier.singleQuote": false,
+  "prettier.quoteProps": "as-needed",
+  "prettier.jsxSingleQuote": false,
+  "prettier.bracketSpacing": false,
+  "prettier.bracketSameLine": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.proseWrap": "preserve",
+  "prettier.endOfLine": "lf"
+}
