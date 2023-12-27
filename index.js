@@ -20,6 +20,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
     })
 );
+app.use('/assets', express.static('assets'));
 
 app.use("/lifeSymphony", router);
 

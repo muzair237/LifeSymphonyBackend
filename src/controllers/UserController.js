@@ -245,11 +245,52 @@ const updatePassword = async (req, res, next) => {
     }
 };
 
+const profilePicture = async (req, res, next) => {
+    try {
+        const { userId } = req.body;
+        if (!userId || req.file) {
+            return res.json({
+                code: 404,
+                success: false,
+                message: "Please provide a valid information!"
+            });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({
+                code: 404,
+                success: false,
+                message: "User not found!"
+            });
+        }
+
+        const uniqueFilename = req.file.filename;
+        user.profilePicture = `${process.env.MAIN_SITE_URL}/assets/profilePictures/${uniqueFilename}`;
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Profile picture updated successfully!",
+            user
+        });
+    } catch (error) {
+        console.error("Error updating profile picture:", error);
+        return res.json({
+            code: 500,
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};
+
+
 module.exports = {
     Login,
     SignUp,
     UpdateProfile,
     sendOTP,
     confirmOTP,
-    updatePassword
+    updatePassword,
+    profilePicture
 };
