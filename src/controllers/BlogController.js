@@ -36,7 +36,7 @@ const addBlog = async (req, res, next) => {
 
 const getAllBlogs = async (req, res, next) => {
     try {
-        const blogs = await blogModel.find({});
+        const blogs = await blogModel.find({}).sort({ createdAt: "-1" });
 
         res.json({ success: true, message: "Blogs fetched successfully", blogs: blogs });
     } catch (error) {
