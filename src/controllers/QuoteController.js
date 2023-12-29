@@ -44,7 +44,7 @@ const getQuote = async (req, res, next) => {
     const randomQuote = await quoteModel.findOne().skip(randomIndex);
 
     // Send the random quote as a JSON response
-    res.json(randomQuote);
+    res.json({ success: true, message: "Quote fetched successfully", quote: randomQuote });
   } catch (error) {
     console.error("Error fetching random quote:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -248,10 +248,10 @@ const updatePassword = async (req, res, next) => {
 const profilePicture = async (req, res, next) => {
     try {
         const { userId } = req.body;
-        if (!userId || req.file) {
+        if (!userId || !req.file) {
             return res.json({
                 code: 404,
-                success: false,
+                status: false,
                 message: "Please provide a valid information!"
             });
         }
@@ -260,7 +260,7 @@ const profilePicture = async (req, res, next) => {
         if (!user) {
             return res.json({
                 code: 404,
-                success: false,
+                status: false,
                 message: "User not found!"
             });
         }
@@ -270,7 +270,7 @@ const profilePicture = async (req, res, next) => {
         await user.save();
 
         res.status(200).json({
-            success: true,
+            status: true,
             message: "Profile picture updated successfully!",
             user
         });
@@ -278,7 +278,7 @@ const profilePicture = async (req, res, next) => {
         console.error("Error updating profile picture:", error);
         return res.json({
             code: 500,
-            success: false,
+            status: false,
             message: "Internal Server Error"
         });
     }
