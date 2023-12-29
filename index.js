@@ -6,6 +6,7 @@ const cors = require("cors");
 const connectDB = require("./src/config/db");
 const userRoutes = require("./src/routes/userRoute");
 const quoteRoutes = require("./src/routes/quoteRoute");
+const blogRoutes = require("./src/routes/blogRoute");
 const port = process.env.PORT || 3000;
 const session = require('express-session');
 
@@ -26,6 +27,7 @@ app.use('/assets', express.static('assets'));
 
 app.use("/lifeSymphony", userRoutes);
 app.use("/lifeSymphony", quoteRoutes);
+app.use("/lifeSymphony", blogRoutes);
 
 app.listen(port, () => {
     console.log(`App Listening on Port ${port}`);
