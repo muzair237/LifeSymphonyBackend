@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const quoteModel = require("../models/Quote");
+const { getRandomNumber } = require("../utils/funcHelper");
 
 router.use(express.json());
 
@@ -34,16 +35,12 @@ const addQuote = async (req, res, next) => {
 
 const getQuote = async (req, res, next) => {
   try {
-    // Get the count of documents in the collection
     const count = await quoteModel.countDocuments();
 
-    // Generate a random index
-    const randomIndex = Math.floor(Math.random() * count);
+    const randomIndex = getRandomNumber(count);
 
-    // Retrieve a random document
     const randomQuote = await quoteModel.findOne().skip(randomIndex);
 
-    // Send the random quote as a JSON response
     res.json({ success: true, message: "Quote fetched successfully", quote: randomQuote });
   } catch (error) {
     console.error("Error fetching random quote:", error);
