@@ -4,9 +4,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const connectDB = require("./src/config/db");
-const router = require("./src/routes/userRoute");
+const user = require("./src/routes/userRoute");
+const quote = require("./src/routes/quoteRoute");
 const port = process.env.PORT || 3000;
 const session = require('express-session');
+
 
 app.use(cors());
 connectDB();
@@ -22,7 +24,9 @@ app.use(
 );
 app.use('/assets', express.static('assets'));
 
-app.use("/lifeSymphony", router);
+app.use("/lifeSymphony", user);
+
+app.use("/lifeSymphony", quote);
 
 app.listen(port, () => {
     console.log(`App Listening on Port ${port}`);
