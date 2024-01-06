@@ -32,8 +32,6 @@ const getAllBlogs = async (req, res, next) => {
   const blogs = await blogModel.find({}).sort({ createdAt: '-1' });
 
   res.json({ success: true, message: 'Blogs fetched successfully', blogs: blogs });
-  console.error('Error fetching blogs:', error);
-  res.status(500).json({ error: 'Internal Server Error' });
 };
 
 module.exports = {

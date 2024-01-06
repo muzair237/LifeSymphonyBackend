@@ -1,9 +1,8 @@
-const express = require("express");
-const { addQuote, getQuote } = require("../controllers/QuoteController");
+const express = require('express');
+const { addQuote, getQuote } = require('../controllers/QuoteController');
 const router = express.Router();
 
-
-router.post('/quote', addQuote);
-router.get('/quote', getQuote);
+router.get('/', getQuote);
+router.post('/', addQuote);
 
 module.exports = router;
