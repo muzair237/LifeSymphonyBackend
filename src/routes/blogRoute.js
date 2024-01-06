@@ -4,6 +4,6 @@ const tryCatch = require('../middlewares/trycatch');
 const router = express.Router();
 
 router.get('/', tryCatch(getAllBlogs));
-router.post('/', tryCatch(addBlog));
+router.post('/', tryCatch(addBlogs));
 
 module.exports = router;
